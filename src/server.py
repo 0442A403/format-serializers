@@ -1,5 +1,6 @@
 import logging
 import os
+import json
 
 from flask import Flask, request
 from __init__ import SERIALIZERS
@@ -21,7 +22,7 @@ def serialize():
     if data["format"] != data_format:
         return f"Server accepts only {data_format} format", 400
 
-    serialized = serializer.serialize(data["data"])
+    serialized = serializer.serialize(json.loads(data["data"]))
     return serialized
 
 
@@ -35,7 +36,7 @@ def deserialize():
         return f"Server accepts only {data_format} format", 400
 
     deserialized = serializer.deserialize(data["data"])
-    return deserialized.encode()
+    return deserialized
 
 
 def start_server(data_format_, port):

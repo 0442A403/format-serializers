@@ -5,9 +5,9 @@ from . import BasicSerializer
 class JsonSerializer(BasicSerializer):
     @staticmethod
     def serialize(data):
-        return json.loads(data)
+        return json.dumps(data)
 
     @staticmethod
     def deserialize(data):
-        return json.dumps(data)
+        return json.loads(data)
 

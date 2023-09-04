@@ -70,7 +70,6 @@ def make_request(action, data_format, data):
     result = requests.get(addr, json=json_data)
 
     logging.info(f"Status code: {result.status_code}")
-    print(result.status_code)
     if result.status_code == 200:
         logging.info(f"Result:\n{result.content}")
         return result.content
