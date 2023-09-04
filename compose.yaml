@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  json:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: json
+
+  pickle:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: pickle
+
+networks:
+  serializers:
+    name: serializers

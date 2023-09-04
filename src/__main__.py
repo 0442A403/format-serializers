@@ -1,20 +1,14 @@
-from server import start_server
-from __init__ import SERIALIZERS
 import argparse
-
-parser = argparse.ArgumentParser()
-
-parser.add_argument(
-    "-f",
-    "--format",
-    choices=SERIALIZERS.keys(),
-    type=str,
-    required=True,
-)
-
-args = parser.parse_args()
-
-format = args.format
+from server import start_server
+from proxy_server import start_proxy_server
+from __init__ import *
 
 if __name__ == '__main__':
-    start_server(format)
+    if args.target == "serializer":
+        assert DATA_FORMAT is not None
+        port = CONFIG['serializers'][DATA_FORMAT]['port']
+        assert port is not None
+        start_server(DATA_FORMAT, port)
+    else:
+        start_proxy_server()
+

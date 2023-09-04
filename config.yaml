@@ -1,0 +1,5 @@
+serializers:
+  json:
+    port: 5001
+  pickle:
+    port: 5002

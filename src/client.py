@@ -2,14 +2,14 @@ import argparse
 import logging
 import os.path
 import requests
-from __init__ import SERIALIZERS
+import yaml
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
     "-f",
     "--format",
-    choices=SERIALIZERS.keys(),
+    choices=["pickle", "xml", "json", "proto", "avro", "yaml", "msgpack"],
     type=str,
     help="format of data",
     required=True,
@@ -32,9 +32,31 @@ parser.add_argument(
     required=True,
 )
 
+parser.add_argument(
+    "-c",
+    "--config",
+    type=str,
+    help="Config path",
+    default="config.yaml"
+)
+
+args = parser.parse_args()
+
+config = None
+for path in [args.config, os.path.join(args.config)]:
+    if os.path.isfile(path):
+        with open(path) as file:
+            logging.info(f"Read config from {path}")
+            config = file.read()
+            break
+
+if config is None:
+    raise f"Bad config path {args.config}"
+
+config = yaml.load(config, Loader=yaml.CLoader)
 
 def make_request(action, data_format, data):
-    addr = f"{SERIALIZERS[data_format].addr}/{action}"
+    addr = f"http://127.0.0.1:{config['serializers'][data_format]['port']}/{action}"
     json_data = {
         "format": data_format,
         "data": "".join(map(chr, data)),
@@ -49,20 +71,14 @@ def make_request(action, data_format, data):
     else:
         raise "Something went wrong"
 
-
-args = parser.parse_args()
-
-if os.path.exists(args.data):
-    with open(args.data) as file:
-        logging.info(f"Read data from {args.data}")
-        args.data = file.read()
-elif os.path.exists(os.path.join(os.getcwd(), args.data)):
-    with open(os.path.join(os.getcwd(), args.data)) as file:
-        logging.info(f"Read data from {os.path.join(os.getcwd(), args.data)}")
-        args.data = file.read()
+for path in [args.data, os.path.join(os.getcwd(), args.data)]:
+    if os.path.isfile(path):
+        with open(args.data) as file:
+            logging.info(f"Read data from {path}")
+            args.data = file.read()
+            break
 
 args.data = args.data.encode()
-
 
 if args.action != "full":
     make_request(args.action, args.format, args.data)

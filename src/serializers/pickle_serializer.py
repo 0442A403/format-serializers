@@ -1,11 +1,8 @@
 import pickle
-import json
 from . import BasicSerializer
 
 
 class PickleSerializer(BasicSerializer):
-    addr = "http://localhost:5000"
-
     @staticmethod
     def serialize(data):
         return pickle.dumps(data)

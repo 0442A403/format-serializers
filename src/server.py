@@ -6,7 +6,7 @@ from __init__ import SERIALIZERS
 app = Flask(__name__)
 app.debug = True
 
-format = None
+data_format = None
 serializer = None
 
 
@@ -15,11 +15,10 @@ def serialize():
     logging.info(f"Got /serialize request")
     data = request.get_json()
 
-    if data["format"] != format:
-        #return f"Server accepts only {format} format", 400
-        pass
+    if data["format"] != data_format:
+        return f"Server accepts only {data_format} format", 400
 
-    serialized = SERIALIZERS[format].serialize(data["data"])
+    serialized = serializer.serialize(data["data"])
     return serialized
 
 
@@ -28,19 +27,19 @@ def serialize():
 def deserialize():
     logging.info(f"Got /deserialize request")
     data = request.get_json()
-    print(data['data'].encode())
 
-    if data["format"] != format:
-        #return f"Server accepts only {format} format", 400
-        pass
+    if data["format"] != data_format:
+        return f"Server accepts only {data_format} format", 400
 
-    deserialized = SERIALIZERS[format].deserialize(data["data"])
+    deserialized = serializer.deserialize(data["data"])
     return deserialized.encode()
 
 
-def start_server(format_):
-    global format
-    format = format_
+def start_server(data_format_, port):
+    global data_format
+    data_format = data_format_
+
     global serializer
-    serializer = SERIALIZERS[format]
-    app.run()
+    serializer = SERIALIZERS[data_format]
+
+    app.run(port=port)
