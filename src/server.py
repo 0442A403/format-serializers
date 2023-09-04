@@ -1,10 +1,13 @@
 import logging
+import os
+
 from flask import Flask, request
 from __init__ import SERIALIZERS
 
 
 app = Flask(__name__)
-app.debug = True
+if os.getenv('DEBUG') is not None:
+    app.debug = True
 
 data_format = None
 serializer = None
@@ -42,4 +45,4 @@ def start_server(data_format_, port):
     global serializer
     serializer = SERIALIZERS[data_format]
 
-    app.run(port=port)
+    app.run(port=port, host="0.0.0.0")

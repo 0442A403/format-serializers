@@ -4,6 +4,11 @@ import os.path
 import requests
 import yaml
 
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s %(levelname)s %(message)s",
+)
+
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
@@ -56,7 +61,7 @@ if config is None:
 config = yaml.load(config, Loader=yaml.CLoader)
 
 def make_request(action, data_format, data):
-    addr = f"http://127.0.0.1:{config['serializers'][data_format]['port']}/{action}"
+    addr = f"http://127.0.0.1:5000/{action}"
     json_data = {
         "format": data_format,
         "data": "".join(map(chr, data)),
@@ -65,6 +70,7 @@ def make_request(action, data_format, data):
     result = requests.get(addr, json=json_data)
 
     logging.info(f"Status code: {result.status_code}")
+    print(result.status_code)
     if result.status_code == 200:
         logging.info(f"Result:\n{result.content}")
         return result.content

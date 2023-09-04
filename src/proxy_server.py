@@ -1,11 +1,14 @@
 import logging
+import os
+
 from flask import Flask, request
 from __init__ import SERIALIZER_SETTINGS
 import requests
 
 
 proxy_app = Flask(__name__)
-proxy_app.debug = True
+if os.getenv('DEBUG') is not None:
+    proxy_app.debug = True
 
 
 @proxy_app.route("/serialize")
@@ -28,5 +31,5 @@ def deserialize():
     return response.content, response.status_code
 
 
-def start_proxy_server():
-    proxy_app.run()
+def start_proxy_server(port):
+    proxy_app.run(port=port, host="0.0.0.0")

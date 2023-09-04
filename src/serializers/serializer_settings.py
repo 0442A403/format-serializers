@@ -1,5 +1,6 @@
 class SerializerSettings:
-    def __init__(self, port):
-        self.data_format = 'json'
+    def __init__(self, host, port, data_format):
+        self.host = host
         self.port = port
-        self.addr = f"http://127.0.0.1:{port}"
+        self.addr = f"http://{host}:{port}"
+        self.data_format = data_format

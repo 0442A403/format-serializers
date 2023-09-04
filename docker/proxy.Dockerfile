@@ -10,4 +10,4 @@ COPY ../src .
 ARG data_format
 ENV data_format=$data_format
 
-ENTRYPOINT python . --format $data_format --target serializer --config config.yaml
+ENTRYPOINT python . --t proxy --config config.yaml

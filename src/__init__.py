@@ -50,8 +50,6 @@ args = parser.parse_args()
 
 DATA_FORMAT = args.format
 TARGET = args.target
-SERIALIZER_SETTINGS = None
-CONFIG = None
 
 for path in [args.config, os.path.join(args.config)]:
     if os.path.isfile(path):
@@ -62,12 +60,14 @@ for path in [args.config, os.path.join(args.config)]:
 
 if config is None:
     raise f"Bad config path {args.config}"
-
 CONFIG = yaml.load(config, Loader=yaml.CLoader)
-SERIALIZERS_SETTINGS = {}
 
+SERIALIZER_SETTINGS = {}
 for data_format in SERIALIZERS.keys():
     if data_format in CONFIG["serializers"]:
-        SERIALIZERS_SETTINGS[data_format] = SerializerSettings(CONFIG["serializers"][data_format]["port"])
+        serializer_config = CONFIG["serializers"][data_format]
+        host = serializer_config['host']
+        port = serializer_config['port']
+        SERIALIZER_SETTINGS[data_format] = SerializerSettings(host, port, data_format)
     else:
-        SERIALIZERS_SETTINGS[data_format] = None
+        SERIALIZER_SETTINGS[data_format] = None

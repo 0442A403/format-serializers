@@ -10,5 +10,6 @@ if __name__ == '__main__':
         assert port is not None
         start_server(DATA_FORMAT, port)
     else:
-        start_proxy_server()
+        port = CONFIG['proxy'].get('port', 5000)
+        start_proxy_server(port)
 

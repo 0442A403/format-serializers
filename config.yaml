@@ -1,5 +1,11 @@
 serializers:
   json:
+    host: json
     port: 5001
   pickle:
+    host: pickle
     port: 5002
+
+proxy:
+  host: proxy
+  port: 5000
