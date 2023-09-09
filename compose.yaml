@@ -15,6 +15,14 @@ services:
       args:
         data_format: json
 
+  yaml:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: yaml
+
   pickle:
     restart: unless-stopped
     networks: [serializers]

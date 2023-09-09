@@ -5,6 +5,9 @@ serializers:
   pickle:
     host: pickle
     port: 5002
+  yaml:
+    host: yaml
+    port: 5003
 
 proxy:
   host: proxy

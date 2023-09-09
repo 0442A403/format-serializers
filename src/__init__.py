@@ -15,7 +15,7 @@ SERIALIZERS = {
     "json": JsonSerializer,
     "proto": BasicSerializer,
     "avro": BasicSerializer,
-    "yaml": BasicSerializer,
+    "yaml": YamlSerializer,
     "msgpack": BasicSerializer,
 }
 

@@ -1,4 +1,5 @@
 import argparse
+import json
 import logging
 import os.path
 import requests
@@ -71,7 +72,10 @@ def make_request(action, data_format, data):
 
     logging.info(f"Status code: {result.status_code}")
     if result.status_code == 200:
-        logging.info(f"Result:\n{result.content}")
+        if action == "serialize":
+            logging.info(f"Result:\n{result.content}")
+        else:
+            logging.info(f"Result:\n{json.dumps(json.loads(result.content), indent=4)}")
         return result.content
     else:
         raise "Something went wrong"
