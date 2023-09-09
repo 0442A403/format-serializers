@@ -11,7 +11,7 @@ logging.basicConfig(
 
 SERIALIZERS = {
     "pickle": PickleSerializer,
-    "xml": BasicSerializer,
+    "xml": XmlSerializer,
     "json": JsonSerializer,
     "proto": BasicSerializer,
     "avro": BasicSerializer,

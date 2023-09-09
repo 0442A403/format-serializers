@@ -23,6 +23,14 @@ services:
       args:
         data_format: yaml
 
+  xml:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: xml
+
   pickle:
     restart: unless-stopped
     networks: [serializers]
