@@ -4,12 +4,12 @@ code)
     
 That application serialize and deserialize different formats. It should support following formats:
 - [x] pickle
-- [ ] xml
+- [x] xml
 - [x] json
-- [ ] proto
+- [x] proto
 - [ ] avro
-- [ ] yaml
-- [ ] msgpack
+- [x] yaml
+- [x] msgpack
 
 ## Usage
 ### Server

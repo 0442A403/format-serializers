@@ -16,7 +16,7 @@ SERIALIZERS = {
     "proto": ProtoSerializer,
     "avro": BasicSerializer,
     "yaml": YamlSerializer,
-    "msgpack": BasicSerializer,
+    "msgpack": MsgpackSerializer,
 }
 
 parser = argparse.ArgumentParser()

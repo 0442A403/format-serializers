@@ -12,7 +12,7 @@ logging.basicConfig(
 
 parser = argparse.ArgumentParser()
 
-FORMATS = ["pickle", "xml", "json", "proto", "yaml"]
+FORMATS = ["pickle", "xml", "json", "proto", "yaml", "msgpack"]
 
 parser.add_argument(
     "-f",
