@@ -39,6 +39,30 @@ services:
       args:
         data_format: pickle
 
+  proto:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: proto
+
+  avro:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: avro
+
+  msgpack:
+    restart: unless-stopped
+    networks: [serializers]
+    build:
+      dockerfile: docker/serializer.Dockerfile
+      args:
+        data_format: msgpack
+
 networks:
   serializers:
     name: serializers

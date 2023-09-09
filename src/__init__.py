@@ -13,7 +13,7 @@ SERIALIZERS = {
     "pickle": PickleSerializer,
     "xml": XmlSerializer,
     "json": JsonSerializer,
-    "proto": BasicSerializer,
+    "proto": ProtoSerializer,
     "avro": BasicSerializer,
     "yaml": YamlSerializer,
     "msgpack": BasicSerializer,

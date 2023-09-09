@@ -9,5 +9,5 @@ class PickleSerializer(BasicSerializer):
 
     @staticmethod
     def deserialize(data):
-        binary_data = bytes(map(ord, data))
-        return pickle.loads(binary_data)
+        binary_str = bytes(map(ord, data))
+        return pickle.loads(binary_str)

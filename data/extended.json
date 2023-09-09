@@ -1,0 +1,20 @@
+{
+  "first_name": "Damir",
+  "middle_name": "Petrovich",
+  "last_name": "Petrov",
+  "year": 2001,
+  "university": {
+    "name": "HSE",
+    "year": 4,
+    "courses": [
+      {
+        "name": "SOA",
+        "score": 0
+      },
+      {
+        "name": "ML",
+        "score": 8
+      }
+    ]
+  }
+}

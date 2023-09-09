@@ -32,7 +32,12 @@ You can make http request for 5000 port with following syntax:
 }
 ```
 
-For simplicity there is python script `client.py` that make it request with specified data by itself. Example of usage:
+For simplicity there is python script `client.py` that requests with specified data. Example of usage for specific:
 ```bash
 python src/client.py -f pickle -d data/simple.json -a full
 ```
+Or you can request all formats with one command:
+```bash
+python src/client.py -f all -d data/extended.json -a full
+```
+

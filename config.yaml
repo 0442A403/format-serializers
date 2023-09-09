@@ -11,6 +11,15 @@ serializers:
   xml:
     host: xml
     port: 5004
+  proto:
+    host: proto
+    port: 5005
+  avro:
+    host: avro
+    port: 5006
+  msgpack:
+    host: msgpack
+    port: 5007
 
 proxy:
   host: proxy

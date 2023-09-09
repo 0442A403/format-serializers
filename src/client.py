@@ -12,10 +12,12 @@ logging.basicConfig(
 
 parser = argparse.ArgumentParser()
 
+FORMATS = ["pickle", "xml", "json", "proto", "yaml"]
+
 parser.add_argument(
     "-f",
     "--format",
-    choices=["pickle", "xml", "json", "proto", "avro", "yaml", "msgpack"],
+    choices=FORMATS + ["all"],
     type=str,
     help="format of data",
     required=True,
@@ -89,8 +91,12 @@ for path in [args.data, os.path.join(os.getcwd(), args.data)]:
 
 args.data = args.data.encode()
 
-if args.action != "full":
-    make_request(args.action, args.format, args.data)
-else:
-    serialized = make_request("serialize", args.format, args.data)
-    deserialized = make_request("deserialize", args.format, serialized)
+data_formats = [args.format] if args.format != "all" else FORMATS
+
+for data_format in data_formats:
+    logging.info(f"Data format: {data_format}")
+    if args.action != "full":
+        make_request(args.action, data_format, args.data)
+    else:
+        serialized = make_request("serialize", data_format, args.data)
+        deserialized = make_request("deserialize", data_format, serialized)
