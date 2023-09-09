@@ -15,7 +15,6 @@ That application serialize and deserialize different formats. It should support 
 ### Server
 To start application you can use docker-compose to bring all formats:
 ```bash
-docker compose build
 docker compose up
 ```
 or manual specific format:
