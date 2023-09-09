@@ -1,11 +1,11 @@
 FROM python:3.11
 
 WORKDIR /app
-COPY ../requirements.txt .
-COPY ../config.yaml .
+COPY requirements.txt .
+COPY config.yaml .
 RUN pip install -r requirements.txt
 
-COPY ../src .
+COPY src .
 
 ARG data_format
 ENV data_format=$data_format

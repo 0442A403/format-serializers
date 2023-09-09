@@ -3,63 +3,71 @@ services:
   proxy:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-proxy
     build:
-      dockerfile: docker/proxy.Dockerfile
+      dockerfile: proxy.Dockerfile
     ports: ["2000:2000"]
 
   json:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-json
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: json
 
   yaml:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-yaml
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: yaml
 
   xml:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-xml
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: xml
 
   pickle:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-pickle
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: pickle
 
   proto:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-proto
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: proto
 
   avro:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-avro
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: avro
 
   msgpack:
     restart: unless-stopped
     networks: [serializers]
+    image: 0442a403/hse:serializer-msgpack
     build:
-      dockerfile: docker/serializer.Dockerfile
+      dockerfile: serializer.Dockerfile
       args:
         data_format: msgpack
 
