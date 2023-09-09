@@ -1,0 +1,1 @@
+from .avro_serializer import AvroSerializer

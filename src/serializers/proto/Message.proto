@@ -2,7 +2,7 @@ syntax = "proto3";
 
 message Course {
     string name = 1;
-    int32 score = 2;
+    float score = 2;
 }
 
 message UniversityData {

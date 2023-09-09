@@ -4,15 +4,16 @@ import logging
 import os.path
 import requests
 import yaml
+import time
 
 logging.basicConfig(
-    level=logging.DEBUG,
+    level=logging.INFO,
     format="%(asctime)s %(levelname)s %(message)s",
 )
 
 parser = argparse.ArgumentParser()
 
-FORMATS = ["pickle", "xml", "json", "proto", "yaml", "msgpack"]
+FORMATS = ["pickle", "xml", "json", "proto", "yaml", "msgpack", "avro"]
 
 parser.add_argument(
     "-f",
@@ -54,7 +55,7 @@ config = None
 for path in [args.config, os.path.join(args.config)]:
     if os.path.isfile(path):
         with open(path) as file:
-            logging.info(f"Read config from {path}")
+            logging.debug(f"Read config from {path}")
             config = file.read()
             break
 
@@ -64,7 +65,7 @@ if config is None:
 config = yaml.load(config, Loader=yaml.CLoader)
 
 def make_request(action, data_format, data):
-    addr = f"http://127.0.0.1:5000/{action}"
+    addr = f"http://127.0.0.1:2000/{action}"
     json_data = {
         "format": data_format,
         "data": "".join(map(chr, data)),
@@ -72,12 +73,12 @@ def make_request(action, data_format, data):
 
     result = requests.get(addr, json=json_data)
 
-    logging.info(f"Status code: {result.status_code}")
+    logging.debug(f"Status code: {result.status_code}")
     if result.status_code == 200:
         if action == "serialize":
-            logging.info(f"Result:\n{result.content}")
+            logging.debug(f"Result:\n{result.content}")
         else:
-            logging.info(f"Result:\n{json.dumps(json.loads(result.content), indent=4)}")
+            logging.debug(f"Result:\n{json.dumps(json.loads(result.content), indent=4)}")
         return result.content
     else:
         raise "Something went wrong"
@@ -85,7 +86,7 @@ def make_request(action, data_format, data):
 for path in [args.data, os.path.join(os.getcwd(), args.data)]:
     if os.path.isfile(path):
         with open(args.data) as file:
-            logging.info(f"Read data from {path}")
+            logging.debug(f"Read data from {path}")
             args.data = file.read()
             break
 
@@ -94,9 +95,17 @@ args.data = args.data.encode()
 data_formats = [args.format] if args.format != "all" else FORMATS
 
 for data_format in data_formats:
-    logging.info(f"Data format: {data_format}")
     if args.action != "full":
-        make_request(args.action, data_format, args.data)
+        time_start = time.time()
+        data = make_request(args.action, data_format, args.data)
+        time_end = time.time()
+        logging.info(f"{data_format}:\t{len(data)}\t%.2fms", (time_end - time_start) * 1000)
     else:
+        time_start = time.time()
         serialized = make_request("serialize", data_format, args.data)
+        time_serialization = time.time()
         deserialized = make_request("deserialize", data_format, serialized)
+        time_end = time.time()
+        logging.info(f"{data_format}:\t{len(serialized)}\t%.2fms\t%.2fms",
+                     (time_serialization - time_start) * 1000,
+                     (time_end - time_serialization) * 1000)

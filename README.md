@@ -7,7 +7,7 @@ That application serialize and deserialize different formats. It should support 
 - [x] xml
 - [x] json
 - [x] proto
-- [ ] avro
+- [x] avro
 - [x] yaml
 - [x] msgpack
 

@@ -1,0 +1,59 @@
+{
+    "type": "record",
+    "name": "record",
+    "fields": [
+        {
+            "name": "first_name",
+            "type": "string"
+        },
+        {
+            "name": "middle_name",
+            "type": "string"
+        },
+        {
+            "name": "last_name",
+            "type": "string"
+        },
+        {
+            "name": "year",
+            "type": "int"
+        },
+        {
+            "name": "university",
+            "type": {
+                "type": "record",
+                "name": "university_data",
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "year",
+                        "type": "int"
+                    },
+                    {
+                        "name": "courses",
+                        "type": {
+                            "type": "array",
+                            "items": {
+                                "type": "record",
+                                "name": "course",
+                                "fields": [
+                                    {
+                                        "name": "name",
+                                        "type": "string"
+                                    },
+                                    {
+                                        "name": "score",
+                                        "type": "float"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                 ]
+            }
+        }
+    ]
+}

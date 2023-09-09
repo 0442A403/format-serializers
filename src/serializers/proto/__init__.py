@@ -1,1 +1,1 @@
-from .proto import ProtoSerializer
+from .proto_serializer import ProtoSerializer

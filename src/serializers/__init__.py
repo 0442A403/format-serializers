@@ -6,3 +6,4 @@ from .yaml_serializer import YamlSerializer
 from .xml_serializer import XmlSerializer
 from .proto import ProtoSerializer
 from .msgpack_serializer import MsgpackSerializer
+from .avro import AvroSerializer
