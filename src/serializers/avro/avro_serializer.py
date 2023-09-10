@@ -18,8 +18,11 @@ class AvroSerializer(BasicSerializer):
         return bytes_writer.getvalue()
 
     @staticmethod
-    def deserialize(data):
-        binary = bytes(map(ord, data))
+    def deserialize(data, already_binary=False):
+        if already_binary:
+            binary = data
+        else:
+            binary = bytes(map(ord, data))
 
         bytes_writer = BytesIO()
         bytes_writer.write(binary)

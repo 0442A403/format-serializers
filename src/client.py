@@ -21,13 +21,13 @@ parser.add_argument(
     choices=FORMATS + ["all"],
     type=str,
     help="format of data",
-    required=True,
+    required=False,
 )
 
 parser.add_argument(
     "-a",
     "--action",
-    choices=["serialize", "deserialize", "full"],
+    choices=["serialize", "deserialize", "full", "get_result"],
     type=str,
     help="serialize or deserialize data",
     required=True,
@@ -64,12 +64,19 @@ if config is None:
 
 config = yaml.load(config, Loader=yaml.CLoader)
 
-def make_request(action, data_format, data):
+
+def make_request(action, data, data_format=None, test_run=1000):
     addr = f"http://127.0.0.1:2000/{action}"
-    json_data = {
-        "format": data_format,
-        "data": "".join(map(chr, data)),
-    }
+    if action == "get_result":
+        json_data = {
+            "data": "".join(map(chr, data)),
+            "test_runs": test_run
+        }
+    else:
+        json_data = {
+            "format": data_format,
+            "data": "".join(map(chr, data)),
+        }
 
     result = requests.get(addr, json=json_data)
 
@@ -77,9 +84,10 @@ def make_request(action, data_format, data):
     if result.status_code == 200:
         if action == "serialize":
             logging.debug(f"Result:\n{result.content}")
+            return result.content
         else:
             logging.debug(f"Result:\n{json.dumps(json.loads(result.content), indent=4)}")
-        return result.content
+            return json.loads(result.content)
     else:
         raise "Something went wrong"
 
@@ -95,17 +103,24 @@ args.data = args.data.encode()
 data_formats = [args.format] if args.format != "all" else FORMATS
 
 for data_format in data_formats:
-    if args.action != "full":
+    if args.action == "get_result":
+        result = make_request("get_result", args.data)
+        for data_format, stats in result.items():
+            byte_size = stats['byte_size']
+            ser_time = stats["average_serialize_time"]
+            deser_time = stats["average_deserialize_time"]
+            logging.info(f"{data_format}\t{byte_size} bytes\t% 5.3f ms\t%.3f ms", ser_time / 1000, deser_time / 1000)
+    elif args.action == "full":
         time_start = time.time()
-        data = make_request(args.action, data_format, args.data)
-        time_end = time.time()
-        logging.info(f"{data_format}:\t{len(data)}\t%.2fms", (time_end - time_start) * 1000)
-    else:
-        time_start = time.time()
-        serialized = make_request("serialize", data_format, args.data)
+        serialized = make_request("serialize", args.data, data_format)
         time_serialization = time.time()
-        deserialized = make_request("deserialize", data_format, serialized)
+        deserialized = make_request("deserialize", serialized, data_format)
         time_end = time.time()
         logging.info(f"{data_format}:\t{len(serialized)}\t%.2fms\t%.2fms",
                      (time_serialization - time_start) * 1000,
                      (time_end - time_serialization) * 1000)
+    else:
+        time_start = time.time()
+        data = make_request(args.action, args.data, data_format)
+        time_end = time.time()
+        logging.info(f"{data_format}:\t{len(data)}\t%.2fms", (time_end - time_start) * 1000)

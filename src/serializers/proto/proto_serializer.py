@@ -11,8 +11,11 @@ class ProtoSerializer(BasicSerializer):
         return msg.SerializeToString()
 
     @staticmethod
-    def deserialize(data):
+    def deserialize(data, already_binary=False):
         msg = Message()
-        binary_str = bytes(map(ord, data))
-        msg.ParseFromString(binary_str)
+        if already_binary:
+            binary = data
+        else:
+            binary = bytes(map(ord, data))
+        msg.ParseFromString(binary)
         return json_format.MessageToDict(msg)

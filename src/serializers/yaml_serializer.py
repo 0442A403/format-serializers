@@ -8,6 +8,6 @@ class YamlSerializer(BasicSerializer):
         return yaml.dump(data)
 
     @staticmethod
-    def deserialize(data):
+    def deserialize(data, already_binary=False):
         return yaml.load(data, Loader=yaml.CLoader)
 

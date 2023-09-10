@@ -30,6 +30,24 @@ def deserialize():
     response = requests.get(addr, json=request.json)
     return response.content, response.status_code
 
+@proxy_app.route("/get_result")
+def get_result():
+    data = request.get_json()
+    logging.info(f"Got /get_result request")
+
+    result = {}
+    for data_format, serializer_settings in SERIALIZER_SETTINGS.items():
+        addr = f"{serializer_settings.addr}/get_result"
+        format_request = request.json
+        format_request["format"] = data_format
+
+        response = requests.get(addr, json=format_request)
+
+        result[data_format] = response.json()
+
+    return result
+
+
 
 def start_proxy_server(port):
     proxy_app.run(port=port, host="0.0.0.0")

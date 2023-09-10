@@ -8,6 +8,6 @@ class JsonSerializer(BasicSerializer):
         return json.dumps(data)
 
     @staticmethod
-    def deserialize(data):
+    def deserialize(data, already_binary=False):
         return json.loads(data)
 

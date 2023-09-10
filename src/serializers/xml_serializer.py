@@ -10,5 +10,5 @@ class XmlSerializer(BasicSerializer):
         return xml.unparse({XmlSerializer.ROOT: data})
 
     @staticmethod
-    def deserialize(data):
+    def deserialize(data, already_binary=False):
         return xml.parse(data)[XmlSerializer.ROOT]

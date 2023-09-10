@@ -8,6 +8,9 @@ class PickleSerializer(BasicSerializer):
         return pickle.dumps(data)
 
     @staticmethod
-    def deserialize(data):
-        binary = bytes(map(ord, data))
+    def deserialize(data, already_binary=False):
+        if already_binary:
+            binary = data
+        else:
+            binary = bytes(map(ord, data))
         return pickle.loads(binary)
