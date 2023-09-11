@@ -6,10 +6,11 @@ from __init__ import *
 if __name__ == '__main__':
     if args.target == "serializer":
         assert DATA_FORMAT is not None
-        port = CONFIG['serializers'][DATA_FORMAT]['port']
+        port = os.getenv(DATA_FORMAT.upper())
         assert port is not None
         start_server(DATA_FORMAT, port)
     else:
-        port = CONFIG['proxy'].get('port', 5000)
+        port = os.getenv("PROXY")
+        assert port is not None
         start_proxy_server(port)
 

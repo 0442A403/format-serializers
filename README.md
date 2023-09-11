@@ -49,7 +49,7 @@ You can make http request for 5000 port with following syntax:
 ```json
 {
   "format": "YOUR_FORMAT",
-  "data": "YOUR_DATA",
+  "data": "YOUR_DATA"
 }
 ```
 

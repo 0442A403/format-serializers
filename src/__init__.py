@@ -67,7 +67,7 @@ for data_format in SERIALIZERS.keys():
     if data_format in CONFIG["serializers"]:
         serializer_config = CONFIG["serializers"][data_format]
         host = serializer_config['host']
-        port = serializer_config['port']
+        port = os.getenv(data_format.upper())
         SERIALIZER_SETTINGS[data_format] = SerializerSettings(host, port, data_format)
     else:
         SERIALIZER_SETTINGS[data_format] = None

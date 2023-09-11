@@ -1,26 +1,18 @@
 serializers:
   json:
     host: json
-    port: 5001
   pickle:
     host: pickle
-    port: 5002
   yaml:
     host: yaml
-    port: 5003
   xml:
     host: xml
-    port: 5004
   proto:
     host: proto
-    port: 5005
   avro:
     host: avro
-    port: 5006
   msgpack:
     host: msgpack
-    port: 5007
 
 proxy:
   host: proxy
-  port: 2000

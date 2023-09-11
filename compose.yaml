@@ -7,6 +7,7 @@ services:
     build:
       dockerfile: proxy.Dockerfile
     ports: ["2000:2000"]
+    env_file: env
 
   json:
     restart: unless-stopped
@@ -16,6 +17,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: json
+    env_file: env
 
   yaml:
     restart: unless-stopped
@@ -25,6 +27,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: yaml
+    env_file: env
 
   xml:
     restart: unless-stopped
@@ -34,6 +37,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: xml
+    env_file: env
 
   pickle:
     restart: unless-stopped
@@ -43,6 +47,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: pickle
+    env_file: env
 
   proto:
     restart: unless-stopped
@@ -52,6 +57,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: proto
+    env_file: env
 
   avro:
     restart: unless-stopped
@@ -61,6 +67,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: avro
+    env_file: env
 
   msgpack:
     restart: unless-stopped
@@ -70,6 +77,7 @@ services:
       dockerfile: serializer.Dockerfile
       args:
         data_format: msgpack
+    env_file: env
 
 networks:
   serializers:
